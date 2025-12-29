@@ -1,13 +1,9 @@
 name: Daily Train Schedule Update
 
 on:
-  # on push to main
-  push:
-    branches:
-      - main
   # schedule UTC 20:00
   schedule:
-    - cron: '0 20 * * *'
+   - cron: '0 20 * * *'
   # manual run
   workflow_dispatch: 
 
@@ -30,16 +26,22 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4
-
-      - name: Run download script
-        run: python update_data.py
-
-      - name: Commit and push if changed
+      
+      - name: Configure git
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+      
+      - name: Cleanup old files
+        run: ./automation/cleanup.sh
+
+      - name: Run download script
+        run: |
+          python update_data.py
           git add data/*.json
-          # 檢查是否有變動，有的話才 commit
+
+      - name: Commit and push if changed
+        run: |
           if git diff --staged --quiet; then
             echo "No changes in train data. Skipping commit."
           else
