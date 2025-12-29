@@ -1,3 +1,72 @@
-歡迎自行下載研究或建立在任何其他的伺服器或網站上，版權聲明是MIT License，你可以自由地使用、複製、修改、合併、發布、分發、再授權和銷售軟體，但前提是在所有程式碼副本中必須包含原始的版權聲明和MIT授權條款的副本。
+# Taiwan Railway Diagram (React Migration)
 
-請勿反應任何問題，作者公務繁忙無力一一回應，煩請自行解決任何問題，敬請見諒。
+這是台鐵運行圖繪製工具的 React 重構版本。
+本專案旨在將原有的 jQuery + SVG.js 架構遷移至現代化的 React + Vite 架構，並改用原生 SVG 進行渲染，以提升效能與維護性。
+
+## 專案狀態
+
+🚧 **開發中 (Work in Progress)**
+
+目前已完成 MVP (Minimum Viable Product) 功能：
+- [x] 專案初始化 (Vite + React)
+- [x] 路由設定 (React Router)
+- [x] 核心邏輯移植 (資料處理、座標計算)
+- [x] 運行圖繪製 (原生 SVG 實作)
+- [x] 資料讀取 (支援 JSON 格式時刻表)
+
+## 快速開始
+
+### 安裝依賴
+
+```bash
+npm install
+```
+
+### 啟動開發伺服器
+
+```bash
+npm run dev
+```
+
+開啟瀏覽器訪問 `http://localhost:5173`。
+
+### 建置生產版本
+
+```bash
+npm run build
+```
+
+## 專案結構
+
+```
+react-app/
+├── public/
+│   ├── data/           # 時刻表 JSON 資料
+│   └── js/references/  # 路線、車站、車種定義檔
+├── src/
+│   ├── components/     # React 元件
+│   │   └── DiagramCanvas.jsx  # 運行圖繪製核心 (SVG)
+│   ├── pages/          # 頁面元件
+│   │   ├── HomePage.jsx       # 首頁
+│   │   └── DiagramPage.jsx    # 運行圖頁面 (負責資料抓取)
+│   ├── utils/          # 工具函式 (核心邏輯)
+│   │   ├── commonUtils.js     # 通用工具
+│   │   ├── constants.js       # 常數定義
+│   │   ├── dataUtils.js       # 資料處理邏輯
+│   │   └── diagramUtils.js    # 繪圖計算邏輯
+│   ├── App.jsx         # 應用程式入口與路由
+│   └── main.jsx        # 渲染入口
+└── package.json
+```
+
+## 技術棧
+
+- **Framework**: React 18
+- **Build Tool**: Vite
+- **Routing**: React Router DOM v7
+- **Rendering**: Native SVG (不再依賴 SVG.js)
+- **Styling**: CSS Modules / Global CSS (目前沿用部分舊版 CSS)
+
+## 資料來源
+
+本專案依賴 `public/data` 目錄下的 JSON 檔案。這些檔案目前是從舊專案複製而來，包含每日的列車時刻資料。
