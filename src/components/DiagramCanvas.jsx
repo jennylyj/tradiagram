@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { DiagramHours } from '../utils/constants';
 import { padStart } from '../utils/commonUtils';
 
@@ -111,101 +112,138 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
     if (!linesStationsForBackground) return <div>Loading Background...</div>;
 
     return (
-        <div style={{ overflow: 'auto', width: '100%', height: '100vh' }}>
-            <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
-                <style>
-                    {`
-                        .hour_line { stroke: #ccc; stroke-width: 1; }
-                        .min10_line { stroke: #eee; stroke-width: 1; }
-                        .min30_line { stroke: #ddd; stroke-width: 1; }
-                        .station_line { stroke: #ccc; stroke-width: 1; }
-                        .station_noserv_line { stroke: #eee; stroke-width: 1; stroke-dasharray: 5,5; }
-                        .hour_text { font-size: 12px; fill: #666; }
-                        .station_text { font-size: 12px; fill: #666; }
-                        
-                        /* Train Styles from CSS */
-                        .taroko, .kuaimu { stroke: #20b2aa; stroke-width: 2; }
-                        .puyuma, .zhongxing, .direct { stroke: red; stroke-width: 2; }
-                        .tze_chiang, .alishan_local { stroke: orange; stroke-width: 2; }
-                        .tze_chiang_diesel { stroke: gold; stroke-width: 2; }
-                        .emu1200 { stroke: #ff008c; stroke-width: 2; }
-                        .emu300 { stroke: #f44; stroke-width: 2; }
-                        .emu3000 { stroke: #000; stroke-width: 2; }
-                        .chu_kuang, .chushan1, .chushan2, .skip_stop { stroke: #faab82; stroke-width: 2; }
-                        .local, .alishan, .all_stop { stroke: #00f; stroke-width: 1.5; }
-                        .local_express { stroke: #00a6ff; stroke-width: 1.5; }
-                        .fu_hsing { stroke: #00bfff; stroke-width: 1.5; }
-                        .ordinary, .theme { stroke: #006055; stroke-width: 1.5; }
-                        .special { stroke: #ff1493; stroke-width: 2; }
-                        .others { stroke: grey; stroke-width: 1; }
-                    `}
-                </style>
+        <div style={{ width: '100%', height: 'calc(100vh - 100px)', position: 'relative', border: '1px solid #ccc', overflow: 'hidden' }}>
+            <TransformWrapper
+                initialScale={1}
+                minScale={0.1}
+                maxScale={8}
+                centerOnInit={false}
+                centerZoomedOut={false}
+                limitToBounds={false}
+                wheel={{ step: 1.5 }}
+                pinch={{ step: 5 }}
+                doubleClick={{ step: 0.5 }}
+                panning={{ velocityDisabled: true }}
+            >
+                {({ zoomIn, zoomOut, resetTransform }) => (
+                    <>
+                        <div style={{ position: 'absolute', zIndex: 10, bottom: 20, right: 20, display: 'flex', gap: '10px' }}>
+                            <button onClick={() => zoomIn()} style={buttonStyle}>+</button>
+                            <button onClick={() => zoomOut()} style={buttonStyle}>-</button>
+                            <button onClick={() => resetTransform()} style={buttonStyle}>Reset</button>
+                        </div>
+                        <TransformComponent
+                            wrapperStyle={{ width: '100%', height: '100%' }}
+                            contentStyle={{ width: 'fit-content', height: 'fit-content' }}
+                        >
+                            <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
+                                <style>
+                                    {`
+                                        .hour_line { stroke: #ccc; stroke-width: 1; }
+                                        .min10_line { stroke: #eee; stroke-width: 1; }
+                                        .min30_line { stroke: #ddd; stroke-width: 1; }
+                                        .station_line { stroke: #ccc; stroke-width: 1; }
+                                        .station_noserv_line { stroke: #eee; stroke-width: 1; stroke-dasharray: 5,5; }
+                                        .hour_text { font-size: 12px; fill: #666; }
+                                        .station_text { font-size: 12px; fill: #666; }
+                                        
+                                        /* Train Styles from CSS */
+                                        .taroko, .kuaimu { stroke: #20b2aa; stroke-width: 2; }
+                                        .puyuma, .zhongxing, .direct { stroke: red; stroke-width: 2; }
+                                        .tze_chiang, .alishan_local { stroke: orange; stroke-width: 2; }
+                                        .tze_chiang_diesel { stroke: gold; stroke-width: 2; }
+                                        .emu1200 { stroke: #ff008c; stroke-width: 2; }
+                                        .emu300 { stroke: #f44; stroke-width: 2; }
+                                        .emu3000 { stroke: #000; stroke-width: 2; }
+                                        .chu_kuang, .chushan1, .chushan2, .skip_stop { stroke: #faab82; stroke-width: 2; }
+                                        .local, .alishan, .all_stop { stroke: #00f; stroke-width: 1.5; }
+                                        .local_express { stroke: #00a6ff; stroke-width: 1.5; }
+                                        .fu_hsing { stroke: #00bfff; stroke-width: 1.5; }
+                                        .ordinary, .theme { stroke: #006055; stroke-width: 1.5; }
+                                        .special { stroke: #ff1493; stroke-width: 2; }
+                                        .others { stroke: grey; stroke-width: 1; }
+                                    `}
+                                </style>
 
-                {/* 1. Draw Time Grid (Vertical Lines) */}
-                {DiagramHours.map((hour, i) => {
-                    const x = 50 + i * 1200;
-                    const hourText = padStart(hour.toString(), 2, "0") + "00";
-                    
-                    return (
-                        <g key={`hour-${i}`}>
-                            {/* Hour Line */}
-                            <line x1={x} y1={50} x2={x} y2={height} className="hour_line" />
-                            
-                            {/* Hour Text (Repeated vertically) */}
-                            {Array.from({ length: Math.ceil(height / textSpacingFactor) }).map((_, j) => (
-                                <text key={`ht-${i}-${j}`} x={x} y={50 + j * textSpacingFactor + 30} className="hour_text">
-                                    {hourText}
-                                </text>
-                            ))}
+                                {/* 1. Draw Time Grid (Vertical Lines) */}
+                                {DiagramHours.map((hour, i) => {
+                                    const x = 50 + i * 1200;
+                                    const hourText = padStart(hour.toString(), 2, "0") + "00";
+                                    
+                                    return (
+                                        <g key={`hour-${i}`}>
+                                            {/* Hour Line */}
+                                            <line x1={x} y1={50} x2={x} y2={height} className="hour_line" />
+                                            
+                                            {/* Hour Text (Repeated vertically) */}
+                                            {Array.from({ length: Math.ceil(height / textSpacingFactor) }).map((_, j) => (
+                                                <text key={`ht-${i}-${j}`} x={x} y={50 + j * textSpacingFactor + 30} className="hour_text">
+                                                    {hourText}
+                                                </text>
+                                            ))}
 
-                            {/* 10-min Lines */}
-                            {i !== DiagramHours.length - 1 && [1, 2, 3, 4, 5].map(j => {
-                                const mx = x + j * 200;
-                                const is30 = j === 3;
-                                return (
-                                    <g key={`min-${i}-${j}`}>
-                                        <line 
-                                            x1={mx} y1={50} x2={mx} y2={height} 
-                                            className={is30 ? "min30_line" : "min10_line"} 
-                                        />
-                                        {/* Min Text */}
-                                        {Array.from({ length: Math.ceil(height / textSpacingFactor) }).map((_, k) => (
-                                            <text key={`mt-${i}-${j}-${k}`} x={mx} y={50 + k * textSpacingFactor + 30} className="hour_text" fontSize="10">
-                                                {j * 10}
-                                            </text>
-                                        ))}
-                                    </g>
-                                );
-                            })}
-                        </g>
-                    );
-                })}
+                                            {/* 10-min Lines */}
+                                            {i !== DiagramHours.length - 1 && [1, 2, 3, 4, 5].map(j => {
+                                                const mx = x + j * 200;
+                                                const is30 = j === 3;
+                                                return (
+                                                    <g key={`min-${i}-${j}`}>
+                                                        <line 
+                                                            x1={mx} y1={50} x2={mx} y2={height} 
+                                                            className={is30 ? "min30_line" : "min10_line"} 
+                                                        />
+                                                        {/* Min Text */}
+                                                        {Array.from({ length: Math.ceil(height / textSpacingFactor) }).map((_, k) => (
+                                                            <text key={`mt-${i}-${j}-${k}`} x={mx} y={50 + k * textSpacingFactor + 30} className="hour_text" fontSize="10">
+                                                                {j * 10}
+                                                            </text>
+                                                        ))}
+                                                    </g>
+                                                );
+                                            })}
+                                        </g>
+                                    );
+                                })}
 
-                {/* 2. Draw Station Grid (Horizontal Lines) */}
-                {linesStationsForBackground.map((station, i) => {
-                    const y = station.SVGYAXIS + 50;
-                    const isService = station.ID !== 'NA';
-                    
-                    return (
-                        <g key={`st-${i}`}>
-                            <line 
-                                x1={50} y1={y} x2={width - 50} y2={y} 
-                                className={isService ? "station_line" : "station_noserv_line"} 
-                            />
-                            {/* Station Text (Repeated horizontally) */}
-                            {Array.from({ length: 31 }).map((_, j) => (
-                                <text key={`stt-${i}-${j}`} x={5 + j * 1200} y={y - 5} className="station_text">
-                                    {station.DSC}
-                                </text>
-                            ))}
-                        </g>
-                    );
-                })}
+                                {/* 2. Draw Station Grid (Horizontal Lines) */}
+                                {linesStationsForBackground.map((station, i) => {
+                                    const y = station.SVGYAXIS + 50;
+                                    const isService = station.ID !== 'NA';
+                                    
+                                    return (
+                                        <g key={`st-${i}`}>
+                                            <line 
+                                                x1={50} y1={y} x2={width - 50} y2={y} 
+                                                className={isService ? "station_line" : "station_noserv_line"} 
+                                            />
+                                            {/* Station Text (Repeated horizontally) */}
+                                            {Array.from({ length: 31 }).map((_, j) => (
+                                                <text key={`stt-${i}-${j}`} x={5 + j * 1200} y={y - 5} className="station_text">
+                                                    {station.DSC}
+                                                </text>
+                                            ))}
+                                        </g>
+                                    );
+                                })}
 
-                {/* 3. Draw Trains */}
-                {renderTrains}
+                                {/* 3. Draw Trains */}
+                                {renderTrains}
 
-            </svg>
+                            </svg>
+                        </TransformComponent>
+                    </>
+                )}
+            </TransformWrapper>
         </div>
     );
 }
+
+const buttonStyle = {
+    padding: '8px 12px',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight: 'bold'
+};
