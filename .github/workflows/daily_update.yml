@@ -36,14 +36,15 @@ jobs:
         run: ./automation/cleanup.sh
 
       - name: Run download script
+        if: github.event_name != 'workflow_dispatch'
         run: |
           python automation/update_data.py
-          git add data/*.json
+          git add public/data/*.json
 
       - name: Commit and push if changed
         run: |
           if git diff --staged --quiet; then
-            echo "No changes in train data. Skipping commit."
+            echo "No changes in data. Skipping commit."
           else
             git commit -m "Auto-update train schedule: $(date +'%Y-%m-%d')"
             git push

@@ -7,7 +7,7 @@ from urllib.parse import urljoin
 def download_and_optimize():
     base_url = "https://ods.railway.gov.tw"
     list_url = "https://ods.railway.gov.tw/tra-ods-web/ods/download/dataResource/railway_schedule/JSON/list/"
-    save_dir = "data"
+    save_dir = "public/data"
 
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -36,7 +36,7 @@ def download_and_optimize():
         
         print(f"-> Downloaded {x} items.")
         print("-------------")
-        print("Writing into 'data/index.json'...")
+        print("Writing into 'public/data/index.json'...")
 
         all_files = sorted(os.listdir(save_dir))
         if "index.json" in all_files:
