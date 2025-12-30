@@ -1,0 +1,94 @@
+.hamburger {
+  position: fixed;
+  height: 3rem;
+  width: 3rem;
+  top: 1rem;
+  left: 1rem;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.hamburger:hover {
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.bar {
+  width: 24px;
+  height: 2px;
+  background-color: #333;
+  transition: all 0.3s ease;
+}
+
+.hamburger.open .bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger.open .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open .bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.drawer {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 300px;
+  height: calc(100vh - 2rem);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  
+  /* 新的動畫：淡入 + 微縮放 + 位移 */
+  opacity: 0;
+  transform: translateX(-20px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  padding: 4.5rem 1.5rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.drawer.open {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+}
+
+/* 移除或隱藏遮罩樣式 */
+.overlay {
+  display: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}

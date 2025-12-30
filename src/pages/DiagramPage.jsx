@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DiagramCanvas from '../components/DiagramCanvas';
+import SidebarContainer from '../components/Sidebar/SidebarContainer';
 import { getTodayFormattedDate } from '../utils/commonUtils';
 import { DataFiles } from '../utils/constants';
 import { processLineData, jsonToTrainsData } from '../utils/dataUtils';
@@ -59,6 +60,7 @@ export default function DiagramPage() {
 
     return (
         <div>
+            <SidebarContainer />
             <h1>Diagram: {lineKind} - {date}</h1>
             <DiagramCanvas 
                 trainsData={trainsData} 
