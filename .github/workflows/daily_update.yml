@@ -37,7 +37,7 @@ jobs:
 
       - name: Run download script
         run: |
-          python update_data.py
+          python automation/update_data.py
           git add data/*.json
 
       - name: Commit and push if changed
