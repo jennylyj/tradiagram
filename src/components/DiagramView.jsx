@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
-import DiagramCanvas from 'DiagramCanvas';
-import { DataFiles } from '${import.meta.env.BASE_URL}utils/constants';
+import DiagramCanvas from './DiagramCanvas';
+import { DataFiles } from '../utils/constants';
 import { processLineData, jsonToTrainsData } from '../utils/dataUtils';
 import styles from './Sidebar/Sidebar.module.css';
 
