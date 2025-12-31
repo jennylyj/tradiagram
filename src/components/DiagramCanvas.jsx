@@ -4,6 +4,48 @@ import FloatingStationLabels from './FloatingStationLabels';
 import { DiagramHours } from '../utils/constants';
 import { padStart } from '../utils/commonUtils';
 
+// Helper functions for text positioning
+function calculateDistance(start, end) {
+    const deltaX = end[0] - start[0];
+    const deltaY = end[1] - start[1];
+    return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+}
+
+function calculateTextPositions(coordinates, styleClass) {
+    const distances = [];
+    for (let i = 0; i < coordinates.length - 1; i++) {
+        distances.push(calculateDistance(coordinates[i], coordinates[i+1]));
+    }
+
+    let positions = [];
+    let accumulateDist = 0;
+    const isLocal = styleClass === 'local';
+
+    if (isLocal) {
+        let tempPositions = [];
+        for (let d of distances) {
+            if (d > 60) {
+                tempPositions.push(accumulateDist + d / 4);
+            }
+            accumulateDist += d;
+        }
+        positions = tempPositions.filter((_, i) => i % 2 === 0);
+    } else {
+        for (let d of distances) {
+            if (d > 60 && d < 100) {
+                positions.push(0);
+            } else if (d >= 100 && d <= 500) {
+                positions.push(accumulateDist + d / 2);
+            } else if (d > 500) {
+                positions.push(accumulateDist + d / 3);
+                positions.push(accumulateDist + 2 * d / 3);
+            }
+            accumulateDist += d;
+        }
+    }
+    return positions;
+}
+
 export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBackground, carKind, focusOnNow }) {
     const labelsRef = useRef(null);
     const transformRef = useRef(null);
@@ -114,9 +156,10 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                 sections.forEach((section, idx) => {
                     if (section.length <= 1) return;
                     
-                    const { pathString } = generatePathData(section, trainKind);
+                    const { pathString, coordinates } = generatePathData(section, trainKind);
                     const styleClass = carKind[trainKind] || "others";
                     const uniqueId = `${lineKind}-${trainNo}-${idx}`;
+                    const textPositions = calculateTextPositions(coordinates, styleClass);
 
                     renderedPaths.push(
                         <g key={uniqueId}>
@@ -124,18 +167,16 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                                 d={pathString}
                                 className={styleClass}
                                 id={uniqueId}
-                                fill="none"
+                                style={{ fill: 'none' }}
                                 strokeWidth="2" // Default, CSS can override
                             />
-                            {/* Text on path logic is complex in pure SVG/React without a library.
-                                For MVP, we can use a simple text at the start or middle.
-                                Or implement <textPath> if strictly needed.
-                            */}
-                            <text dy="-3">
-                                <textPath href={`#${uniqueId}`} startOffset="50%">
-                                    {trainNo}
-                                </textPath>
-                            </text>
+                            {textPositions.map((pos, i) => (
+                                <text key={`${uniqueId}-txt-${i}`} dy="-3" className={styleClass} style={{ stroke: 'none', fontWeight: '100', fontSize: '14px' }}>
+                                    <textPath href={`#${uniqueId}`} startOffset={pos}>
+                                        {trainNo}
+                                    </textPath>
+                                </text>
+                            ))}
                         </g>
                     );
                 });
@@ -193,22 +234,24 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                                         .station_noserv_line { stroke: #eee; stroke-width: 1; stroke-dasharray: 5,5; }
                                         .hour_text { font-size: 12px; fill: #666; }
                                         .station_text { font-size: 12px; fill: #666; }
+
+                                        svg {font-family: Tahoma, Verdana, sans-serif; font-size: 14px}
                                         
                                         /* Train Styles from CSS */
-                                        .taroko, .kuaimu { stroke: #20b2aa; stroke-width: 2; }
-                                        .puyuma, .zhongxing, .direct { stroke: red; stroke-width: 2; }
-                                        .tze_chiang, .alishan_local { stroke: orange; stroke-width: 2; }
-                                        .tze_chiang_diesel { stroke: gold; stroke-width: 2; }
-                                        .emu1200 { stroke: #ff008c; stroke-width: 2; }
-                                        .emu300 { stroke: #f44; stroke-width: 2; }
-                                        .emu3000 { stroke: #000; stroke-width: 2; }
-                                        .chu_kuang, .chushan1, .chushan2, .skip_stop { stroke: #faab82; stroke-width: 2; }
-                                        .local, .alishan, .all_stop { stroke: #00f; stroke-width: 1.5; }
-                                        .local_express { stroke: #00a6ff; stroke-width: 1.5; }
-                                        .fu_hsing { stroke: #00bfff; stroke-width: 1.5; }
-                                        .ordinary, .theme { stroke: #006055; stroke-width: 1.5; }
-                                        .special { stroke: #ff1493; stroke-width: 2; }
-                                        .others { stroke: grey; stroke-width: 1; }
+                                        .taroko, .kuaimu { color: #20b2aa; stroke: currentColor; fill: currentColor; stroke-width: 2; }
+                                        .puyuma, .zhongxing, .direct { color: red; stroke: currentColor; fill: currentColor; stroke-width: 2; }
+                                        .tze_chiang, .alishan_local { color: orange; stroke: currentColor; fill: currentColor; stroke-width: 2; }
+                                        .tze_chiang_diesel { color: gold; stroke: currentColor; fill: currentColor; stroke-width: 2; }
+                                        .emu1200 { color: #ff008c; stroke: currentColor; fill: currentColor; stroke-width: 2; }
+                                        .emu300 { color: #f44; stroke: currentColor; fill: currentColor; stroke-width: 2; }
+                                        .emu3000 { color: #000; stroke: currentColor; fill: currentColor; stroke-width: 2; }
+                                        .chu_kuang, .chushan1, .chushan2, .skip_stop { color: #faab82; stroke: currentColor; fill: currentColor; stroke-width: 2; }
+                                        .local, .alishan, .all_stop { color: #00f; stroke: currentColor; fill: currentColor; stroke-width: 1.5; }
+                                        .local_express { color: #00a6ff; stroke: currentColor; fill: currentColor; stroke-width: 1.5; }
+                                        .fu_hsing { color: #00bfff; stroke: currentColor; fill: currentColor; stroke-width: 1.5; }
+                                        .ordinary, .theme { color: #006055; stroke: currentColor; fill: currentColor; stroke-width: 1.5; }
+                                        .special { color: #ff1493; stroke: currentColor; fill: currentColor; stroke-width: 2; }
+                                        .others { color: grey; stroke: currentColor; fill: currentColor; stroke-width: 1; }
 
                                         // @media (prefers-color-scheme: dark) {
                                         //     .hour_line { stroke: #555; stroke-width: 1; }
