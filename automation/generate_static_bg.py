@@ -35,8 +35,8 @@ def generate_svg():
     svg_content = [
         f'<svg width="{width}" height="{max_y}" xmlns="http://www.w3.org/2000/svg">',
         '<style>',
-        '.train { fill: none; stroke-width: 8; opacity: 0.9; }', # 大幅加粗並增加不透明度
-        '.grid { stroke: rgba(255,255,255,0.1); stroke-width: 2; }', # 讓網格線變淡白色
+        '.train { fill: none; stroke-width: 8; opacity: 0.6; }', # 降低不透明度，在白底上較柔和
+        '.grid { stroke: rgba(0,0,0,0.05); stroke-width: 2; }', # 讓網格線變淡灰色
         '</style>'
     ]
     
@@ -90,12 +90,12 @@ def generate_svg():
                 path_points.append(f"{x},{y}")
         
         if len(path_points) > 1:
-            # 使用更明亮的顏色以利在深色背景顯示
+            # 使用適合白底的顏色
             train_no = train.get('Train', '')
-            color = "#ffffff" # 預設白色
-            if train_no.startswith('1'): color = "#ffcc00" # 自強號用亮橘黃
-            elif train_no.startswith('2'): color = "#ff9900" # 莒光/自強
-            elif train_no.startswith('4'): color = "#00ccff" # 區間車用亮藍
+            color = "#666666" # 預設深灰色
+            if train_no.startswith('1'): color = "#ff9900" # 自強號用橘色
+            elif train_no.startswith('2'): color = "#ff6600" # 莒光
+            elif train_no.startswith('4'): color = "#007aff" # 區間車用藍色
             
             svg_content.append(f'<path d="M{" ".join(path_points)}" class="train" stroke="{color}" />')
             train_count += 1

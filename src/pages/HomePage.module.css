@@ -7,7 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1a1c1e; /* 改用深灰色，避免全黑看不出東西 */
+    background-color: #ffffff; /* 改為白色背景 */
 }
 
 .background {
@@ -55,8 +55,8 @@
     width: 100%;
     height: 100%;
     z-index: 1;
-    /* 調輕毛玻璃效果：降低模糊度，增加透明度 */
-    background: rgba(0, 0, 0, 0.1);
+    /* 調輕毛玻璃效果：在白底上使用半透明白色遮罩 */
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(3px) saturate(120%);
     -webkit-backdrop-filter: blur(3px) saturate(120%);
     display: flex;
@@ -67,9 +67,9 @@
 .contentBox {
     z-index: 2;
     max-width: 600px;
-    width: 90%;
+    width: 80%;
     background: rgba(255, 255, 255, 0.85);
-    padding: 3.5rem 2.5rem;
+    padding: 3.5rem 1.5rem;
     border-radius: 32px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.4);
@@ -121,10 +121,11 @@
     font-size: 1.1rem;
     transition: all 0.2s ease;
     box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
-    min-width: 140px;
+    min-width: 100px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    width: 50%;
 }
 
 .primaryButton:hover {
@@ -177,8 +178,10 @@
     .buttonGroup {
         flex-direction: column;
         width: 100%;
+        align-items: center;
     }
     .primaryButton, .secondaryButton {
-        width: 100%;
+        width: 80%;
+        max-width: 280px;
     }
 }
