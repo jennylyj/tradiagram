@@ -22,7 +22,7 @@ export default function DiagramView({ lineKind, date, showLoading = true, isBack
                     fetch(DataFiles.SVG_X_Axis).then(res => res.json()),
                     fetch(DataFiles.SVG_Y_Axis).then(res => res.json()),
                     fetch(DataFiles.CarKind).then(res => res.json()),
-                    fetch(`./data/${date}.json`).then(res => {
+                    fetch(`${import.meta.env.BASE_URL}data/${date}.json`).then(res => {
                         if (!res.ok) throw new Error(`Data file for ${date} not found`);
                         return res.json();
                     })

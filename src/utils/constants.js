@@ -18,10 +18,12 @@ export const LineDict = {
     'LINE_N': '北迴線'
 };
 
+const BASE_URL = import.meta.env.BASE_URL;
+
 export const DataFiles = {
-    Route: "/references/Route.json",
-    SVG_X_Axis: "/references/SVG_X_Axis.json",
-    SVG_Y_Axis: "/references/SVG_Y_Axis.json",
-    OperationLines: "/references/OperationLines.json",
-    CarKind: "/references/CarKind.json"
+    Route: `${BASE_URL}references/Route.json`,
+    SVG_X_Axis: `${BASE_URL}references/SVG_X_Axis.json`,
+    SVG_Y_Axis: `${BASE_URL}references/SVG_Y_Axis.json`,
+    OperationLines: `${BASE_URL}references/OperationLines.json`,
+    CarKind: `${BASE_URL}references/CarKind.json`
 };
