@@ -385,7 +385,13 @@ export function processLineData(svgYAxisData) {
         for (let i = 0; i < value.length; i++) {
             if (value[i]['ID'] != 'NA')
                 stations_loc[value[i]['ID']] = { 'DSC': value[i]['DSC'], 'SVGYAXIS': value[i]['SVGYAXIS'] };
-            stations_loc_for_background.push({ 'ID': value[i]['ID'], 'DSC': value[i]['DSC'], 'SVGYAXIS': value[i]['SVGYAXIS'], 'TERMINAL': value[i]['TERMINAL'] });
+            stations_loc_for_background.push({ 
+                'ID': value[i]['ID'], 
+                'DSC': value[i]['DSC'], 
+                'SVGYAXIS': value[i]['SVGYAXIS'], 
+                'TERMINAL': value[i]['TERMINAL'],
+                'WEIGHT': value[i]['WEIGHT'] || 1 // Default to 1 if missing
+            });
         }
         linesStations[key] = stations_loc;
         linesStationsForBackground[key] = stations_loc_for_background;
