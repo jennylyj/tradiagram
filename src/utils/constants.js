@@ -18,7 +18,8 @@ export const LineDict = {
     'LINE_N': '北迴線'
 };
 
-const BASE_URL = import.meta.env.BASE_URL;
+// Ensure BASE_URL is correct for GitHub Pages deployment
+export const BASE_URL = import.meta.env.BASE_URL === '/' ? '/tradiagram/' : import.meta.env.BASE_URL;
 
 export const DataFiles = {
     Route: `${BASE_URL}references/Route.json`,

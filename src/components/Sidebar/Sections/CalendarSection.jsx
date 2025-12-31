@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../Sidebar.module.css';
+import { BASE_URL } from '../../../utils/constants';
 
 const CalendarSection = ({ currentDate, onDateSelect }) => {
   const [availableDates, setAvailableDates] = useState([]);
   const [viewDate, setViewDate] = useState(new Date());
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data/index.json`)
+    fetch(`${BASE_URL}data/index.json`)
       .then(res => res.json())
       .then(data => setAvailableDates(data))
       .catch(err => console.error('Failed to fetch index.json', err));

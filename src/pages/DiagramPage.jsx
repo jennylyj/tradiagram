@@ -4,7 +4,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import DiagramCanvas from '../components/DiagramCanvas';
 import SidebarContainer from '../components/Sidebar/SidebarContainer';
 import { getTodayFormattedDate } from '../utils/commonUtils';
-import { DataFiles } from '../utils/constants';
+import { DataFiles, BASE_URL } from '../utils/constants';
 import { LineDict } from '../utils/constants';
 import { processLineData, jsonToTrainsData } from '../utils/dataUtils';
 import styles from '../components/Sidebar/Sidebar.module.css';
@@ -45,7 +45,7 @@ export default function DiagramPage() {
                     fetch(DataFiles.SVG_X_Axis).then(res => res.json()),
                     fetch(DataFiles.SVG_Y_Axis).then(res => res.json()),
                     fetch(DataFiles.CarKind).then(res => res.json()),
-                    fetch(`${import.meta.env.BASE_URL}data/${date}.json`).then(res => res.json())
+                    fetch(`${BASE_URL}data/${date}.json`).then(res => res.json())
                 ]);
 
                 // Process Line Data
