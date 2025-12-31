@@ -46,11 +46,11 @@
 
 .drawer {
   position: fixed;
-  top: 1rem;
+  top: calc(env(safe-area-inset-top, 0px) + 6rem);
   left: 1rem;
   width: 300px;
   max-width: 85vw;
-  height: calc(100vh - 2rem);
+  height: calc(100vh - env(safe-area-inset-top, 0px) - 6rem);
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
@@ -64,7 +64,7 @@
   pointer-events: none;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   
-  padding: 4.5rem 1.5rem 1.5rem;
+  padding: 1.5rem;
   box-sizing: border-box;
 }
 
@@ -92,4 +92,195 @@
   margin-bottom: 1rem;
   border-bottom: 1px solid #eee;
   padding-bottom: 0.5rem;
+}
+
+.section {
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 0.5rem;
+}
+
+.sectionHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.sectionHeader:hover {
+  color: #000;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.chevron {
+  font-size: 0.7rem;
+  transition: transform 0.3s ease;
+  color: #999;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.sectionContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+  padding: 0;
+}
+
+.contentOpen {
+  max-height: 500px; /* Adjust as needed */
+  padding: 0.5rem 0 1rem;
+  overflow-y: auto;
+}
+
+/* Calendar Styles */
+.calendarContainer {
+  font-family: sans-serif;
+  user-select: none;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+
+.weekday {
+  font-size: 0.7rem;
+  color: #999;
+  padding: 4px 0;
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.day:hover {
+  background: #f0f0f0;
+}
+
+.hasData {
+  background: #e6f7ff;
+  color: #1890ff;
+  font-weight: bold;
+}
+
+.hasData:hover {
+  background: #bae7ff;
+}
+
+.selectedDay {
+  background: #1890ff !important;
+  color: white !important;
+}
+
+.otherMonth {
+  color: #ccc;
+}
+
+/* Region Styles */
+.regionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.regionButton {
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  text-align: center;
+  background: #f5f5f5;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.regionButton:hover {
+  background: #fff;
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.activeRegion {
+  background: #e6f7ff;
+  border-color: #1890ff;
+  color: #1890ff;
+  font-weight: bold;
+}
+
+/* Search Styles */
+.searchPlaceholder {
+  padding: 0.5rem;
+  background: #fafafa;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  color: #999;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Transition Overlay */
+.loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.loadingOverlayVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #1890ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

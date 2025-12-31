@@ -1,19 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Sidebar.module.css';
+import CollapsibleSection from './Sections/CollapsibleSection';
+import CalendarSection from './Sections/CalendarSection';
+import RegionSection from './Sections/RegionSection';
+import SearchSection from './Sections/SearchSection';
 
-const SidebarDrawer = ({ isOpen, children }) => {
+const SidebarDrawer = ({ isOpen, currentDate, onDateSelect }) => {
+  const [activeSection, setActiveSection] = useState('calendar');
+
+  const toggleSection = (sectionId) => {
+    setActiveSection(prev => prev === sectionId ? null : sectionId);
+  };
+
   return (
     <aside className={`${styles.drawer} ${isOpen ? styles.open : ''}`}>
       <div className={styles.content}>
-        <h2 className={styles.title}>運行圖控制面板</h2>
-        {children}
+        <h2 className={styles.title}>設定</h2>
         
-        {/* 預留的工具列表位置 */}
-        <div style={{ color: '#666', fontSize: '0.9rem' }}>
-          <p>• 線路選擇 (待開發)</p>
-          <p>• 縮放倍率 (待開發)</p>
-          <p>• 車次過濾 (待開發)</p>
-        </div>
+        <CollapsibleSection 
+          title="選擇日曆" 
+          isOpen={activeSection === 'calendar'}
+          onToggle={() => toggleSection('calendar')}
+        >
+          <CalendarSection currentDate={currentDate} onDateSelect={onDateSelect} />
+        </CollapsibleSection>
+
+        <CollapsibleSection 
+          title="搜尋車次"
+          isOpen={activeSection === 'search'}
+          onToggle={() => toggleSection('search')}
+        >
+          <SearchSection />
+        </CollapsibleSection>
+
+        <CollapsibleSection 
+          title="選擇軌道"
+          isOpen={activeSection === 'region'}
+          onToggle={() => toggleSection('region')}
+        >
+          <RegionSection />
+        </CollapsibleSection>
+
+        
       </div>
     </aside>
   );
