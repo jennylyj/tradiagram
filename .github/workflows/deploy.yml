@@ -2,7 +2,7 @@ name: Deploy Vite Project
 
 on:
   push:
-    branches: ["gh-pages", "main"]
+    branches: ["main"]
 
 permissions:
   contents: read
