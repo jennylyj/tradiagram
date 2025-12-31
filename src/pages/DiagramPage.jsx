@@ -45,7 +45,7 @@ export default function DiagramPage() {
                     fetch(DataFiles.SVG_X_Axis).then(res => res.json()),
                     fetch(DataFiles.SVG_Y_Axis).then(res => res.json()),
                     fetch(DataFiles.CarKind).then(res => res.json()),
-                    fetch(`/data/${date}.json`).then(res => res.json())
+                    fetch(`${import.meta.env.BASE_URL}data/${date}.json`).then(res => res.json())
                 ]);
 
                 // Process Line Data

@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
-import DiagramCanvas from './DiagramCanvas';
-import { DataFiles } from '../utils/constants';
+import DiagramCanvas from 'DiagramCanvas';
+import { DataFiles } from '${import.meta.env.BASE_URL}utils/constants';
 import { processLineData, jsonToTrainsData } from '../utils/dataUtils';
 import styles from './Sidebar/Sidebar.module.css';
 
@@ -22,7 +22,7 @@ export default function DiagramView({ lineKind, date, showLoading = true, isBack
                     fetch(DataFiles.SVG_X_Axis).then(res => res.json()),
                     fetch(DataFiles.SVG_Y_Axis).then(res => res.json()),
                     fetch(DataFiles.CarKind).then(res => res.json()),
-                    fetch(`/data/${date}.json`).then(res => {
+                    fetch(`./data/${date}.json`).then(res => {
                         if (!res.ok) throw new Error(`Data file for ${date} not found`);
                         return res.json();
                     })
