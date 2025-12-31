@@ -123,9 +123,11 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                 centerOnInit={false}
                 centerZoomedOut={false}
                 limitToBounds={false}
-                wheel={{ step: 0.5}}
+                wheel={{ disabled: false, step: 0.5 }}
+                // pinch={{ step: 0.5 }}
                 pinch={{ step: 5 }}
                 doubleClick={{ step: 0.5 }}
+                // panning={{ velocityDisabled: true, lockAxisX: false, lockAxisY: false }}
                 panning={{ velocityDisabled: true }}
                 onTransformed={(ref) => labelsRef.current?.update(ref.state)}
                 onPanning={(ref) => labelsRef.current?.update(ref.state)}
@@ -172,6 +174,22 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                                         .ordinary, .theme { stroke: #006055; stroke-width: 1.5; }
                                         .special { stroke: #ff1493; stroke-width: 2; }
                                         .others { stroke: grey; stroke-width: 1; }
+
+                                        // @media (prefers-color-scheme: dark) {
+                                        //     .hour_line { stroke: #555; stroke-width: 1; }
+                                        //     .min10_line { stroke: #333; stroke-width: 1; }
+                                        //     .min30_line { stroke: #444; stroke-width: 1; }
+                                        //     .station_line { stroke: #555; stroke-width: 1; }
+                                        //     .station_noserv_line { stroke: #222; stroke-width: 1; stroke-dasharray: 5,5; }
+                                        //     .hour_text { font-size: 12px; fill: #999; }
+                                        //     .station_text { font-size: 12px; fill: #999; }
+                                            
+                                        //     /* Train Styles from CSS */
+                                        //     .emu3000 { stroke: #fff; stroke-width: 2; }
+                                        //     .local, .alishan, .all_stop { stroke: #7676ff; stroke-width: 1.5; }
+                                        //     .ordinary, .theme { stroke: #00ffe1; stroke-width: 1.5; }
+                                        //     .others { stroke: #7f7f7f; stroke-width: 1; }
+                                        // }
                                     `}
                                 </style>
 

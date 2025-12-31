@@ -5,6 +5,7 @@ import DiagramCanvas from '../components/DiagramCanvas';
 import SidebarContainer from '../components/Sidebar/SidebarContainer';
 import { getTodayFormattedDate } from '../utils/commonUtils';
 import { DataFiles } from '../utils/constants';
+import { LineDict } from '../utils/constants';
 import { processLineData, jsonToTrainsData } from '../utils/dataUtils';
 import styles from '../components/Sidebar/Sidebar.module.css';
 
@@ -106,7 +107,7 @@ export default function DiagramPage() {
             {/* 頂部標題列白色底色 */}
             <div className={styles.header}>
                 <h1 className={styles.headerTitle}>
-                    {lineKind} - {date}
+                    {LineDict[lineKind]} - {date}
                 </h1>
             </div>
             
