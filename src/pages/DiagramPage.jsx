@@ -59,15 +59,28 @@ export default function DiagramPage() {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div>
+        <div
+            style={{
+                minHeight: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center', // 水平置中
+                justifyContent: 'flex-start', // 垂直上對齊
+                paddingTop: 20,
+            }}
+        >
             <SidebarContainer />
-            <h1>Diagram: {lineKind} - {date}</h1>
-            <DiagramCanvas 
-                trainsData={trainsData} 
-                lineKind={lineKind}
-                linesStationsForBackground={backgroundData?.linesStationsForBackground}
-                carKind={backgroundData?.carKind}
-            />
+            <div style={{ width: '100%', maxWidth: 1200, textAlign: 'center', marginBottom: 25 }}>
+                Diagram: {lineKind} - {date}
+            </div>
+            <div style={{ width: '100%', maxWidth: 1200 }}>
+                <DiagramCanvas
+                    trainsData={trainsData}
+                    lineKind={lineKind}
+                    linesStationsForBackground={backgroundData?.linesStationsForBackground}
+                    carKind={backgroundData?.carKind}
+                />
+            </div>
         </div>
     );
 }

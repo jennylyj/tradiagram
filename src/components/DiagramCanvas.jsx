@@ -1,9 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+import FloatingStationLabels from './FloatingStationLabels';
 import { DiagramHours } from '../utils/constants';
 import { padStart } from '../utils/commonUtils';
 
 export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBackground, carKind }) {
+    const labelsRef = useRef(null);
+
     // Constants for drawing
     const hourWidth = 1200;
     const width = hourWidth * (DiagramHours.length - 1) + 100;
@@ -114,19 +117,26 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
     return (
         <div style={{ width: '100%', height: 'calc(100vh - 100px)', position: 'relative', border: '1px solid #ccc', overflow: 'hidden' }}>
             <TransformWrapper
-                initialScale={1}
-                minScale={0.1}
-                maxScale={8}
+                initialScale={0.5}
+                minScale={0.4}                
+                maxScale={2}
                 centerOnInit={false}
                 centerZoomedOut={false}
                 limitToBounds={false}
-                wheel={{ step: 1.5 }}
+                wheel={{ step: 0.5}}
                 pinch={{ step: 5 }}
                 doubleClick={{ step: 0.5 }}
                 panning={{ velocityDisabled: true }}
+                onTransformed={(ref) => labelsRef.current?.update(ref.state)}
+                onPanning={(ref) => labelsRef.current?.update(ref.state)}
+                onZooming={(ref) => labelsRef.current?.update(ref.state)}
             >
                 {({ zoomIn, zoomOut, resetTransform }) => (
                     <>
+                        <FloatingStationLabels 
+                            ref={labelsRef}
+                            stations={linesStationsForBackground} 
+                        />
                         <div style={{ position: 'absolute', zIndex: 10, bottom: 20, right: 20, display: 'flex', gap: '10px' }}>
                             <button onClick={() => zoomIn()} style={buttonStyle}>+</button>
                             <button onClick={() => zoomOut()} style={buttonStyle}>-</button>
