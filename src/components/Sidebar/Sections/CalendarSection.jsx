@@ -6,7 +6,7 @@ const CalendarSection = ({ currentDate, onDateSelect }) => {
   const [viewDate, setViewDate] = useState(new Date());
 
   useEffect(() => {
-    fetch('/data/index.json')
+    fetch(`${import.meta.env.BASE_URL}data/index.json`)
       .then(res => res.json())
       .then(data => setAvailableDates(data))
       .catch(err => console.error('Failed to fetch index.json', err));

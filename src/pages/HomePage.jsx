@@ -38,7 +38,7 @@ export default function HomePage() {
         <div className={styles.container}>
             {/* 背景：使用靜態 SVG 圖片 */}
             <div className={styles.background}>
-                <img src="/images/home-bg.svg" alt="Background Diagram" className={styles.bgImage} />
+                <img src={`${import.meta.env.BASE_URL}images/home-bg.svg`} alt="Background Diagram" className={styles.bgImage} />
             </div>
 
             {/* 毛玻璃遮罩層 */}
