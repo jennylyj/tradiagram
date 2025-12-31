@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import DiagramCanvas from '../components/DiagramCanvas';
 import SidebarContainer from '../components/Sidebar/SidebarContainer';
 import { getTodayFormattedDate } from '../utils/commonUtils';
@@ -11,12 +11,20 @@ import styles from '../components/Sidebar/Sidebar.module.css';
 
 export default function DiagramPage() {
     const { lineKind } = useParams();
-    const [date, setDate] = useState(getTodayFormattedDate('nodash'));
+    const [searchParams] = useSearchParams();
+    const queryDate = searchParams.get('date');
+    const [date, setDate] = useState(queryDate || getTodayFormattedDate('nodash'));
     const [trainsData, setTrainsData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [error, setError] = useState(null);
     const [backgroundData, setBackgroundData] = useState(null);
+
+    useEffect(() => {
+        if (queryDate) {
+            setDate(queryDate);
+        }
+    }, [queryDate]);
 
     useEffect(() => {
         async function fetchData() {
@@ -111,12 +119,13 @@ export default function DiagramPage() {
                 </h1>
             </div>
             
-            <div style={{ width: '100%', flex: 1 }}>
-                <DiagramCanvas
-                    trainsData={trainsData}
+                        <div style={{ flex: 1, width: '100%', position: 'relative' }}>
+                <DiagramCanvas 
+                    trainsData={trainsData} 
                     lineKind={lineKind}
                     linesStationsForBackground={backgroundData?.linesStationsForBackground}
                     carKind={backgroundData?.carKind}
+                    focusOnNow={true}
                 />
             </div>
         </div>

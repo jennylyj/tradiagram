@@ -1,12 +1,38 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import DiagramView from '../components/DiagramView';
 import { getTodayFormattedDate } from '../utils/commonUtils';
 import styles from './HomePage.module.css';
+import SelectionModal from '../components/SelectionModal';
 
 export default function HomePage() {
     const today = getTodayFormattedDate('nodash');
+    const navigate = useNavigate();
+    
+    const [showModal, setShowModal] = useState(false);
+    const [modalStep, setModalStep] = useState('date'); // 'date' or 'region'
+    const [selectedDate, setSelectedDate] = useState(today);
+
+    const handleStartClick = (e) => {
+        e.preventDefault();
+        setShowModal(true);
+        setModalStep('date');
+    };
+
+    const handleDateSelect = (date) => {
+        setSelectedDate(date);
+        setModalStep('region');
+    };
+
+    const handleRegionSelect = (region) => {
+        setShowModal(false);
+        navigate(`/diagram/${region}?date=${selectedDate}`);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
 
     return (
         <div className={styles.container}>
@@ -28,12 +54,25 @@ export default function HomePage() {
                     </p>
                     
                     <div className={styles.buttonGroup}>
-                        <Link to="/diagram/LINE_WN" className={styles.primaryButton}>
+                        <button 
+                            onClick={handleStartClick} 
+                            className={styles.primaryButton}
+                            style={{ border: 'none', cursor: 'pointer' }}
+                        >
                             出發
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>
+
+            <SelectionModal 
+                isOpen={showModal}
+                onClose={handleCloseModal}
+                step={modalStep}
+                currentDate={selectedDate}
+                onDateSelect={handleDateSelect}
+                onRegionSelect={handleRegionSelect}
+            />
         </div>
     );
 }
