@@ -61,19 +61,44 @@ export default function DiagramPage() {
     return (
         <div
             style={{
-                minHeight: '100vh',
+                minHeight: '100dvh',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center', // 水平置中
-                justifyContent: 'flex-start', // 垂直上對齊
-                paddingTop: 20,
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                paddingTop: 'calc(env(safe-area-inset-top, 0px) + 5rem)', // 這裡調整內容與頂部的間距
+                backgroundColor: 'inherit',
             }}
         >
             <SidebarContainer />
-            <div style={{ width: '100%', maxWidth: 1200, textAlign: 'center', marginBottom: 25 }}>
-                Diagram: {lineKind} - {date}
+            
+            {/* 頂部標題列白色底色 */}
+            <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 'calc(env(safe-area-inset-top, 0px) + 4.5rem)', // 您可以在這裡調整白色底的高度
+                backgroundColor: 'white',
+                zIndex: 1000,
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                display: 'flex',
+                alignItems: 'flex-end',
+                paddingBottom: '0.5rem',
+                paddingLeft: '4.5rem'
+            }}>
+                <h1 style={{ 
+                    margin: '22px 10px', 
+                    fontSize: '1.1rem', 
+                    fontWeight: 'bold',
+                    color: '#333',
+                    whiteSpace: 'nowrap'
+                }}>
+                    {lineKind} - {date}
+                </h1>
             </div>
-            <div style={{ width: '100%', maxWidth: 1200 }}>
+            
+            <div style={{ width: '100%', maxWidth: 1200, flex: 1 }}>
                 <DiagramCanvas
                     trainsData={trainsData}
                     lineKind={lineKind}

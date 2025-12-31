@@ -115,7 +115,7 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
     if (!linesStationsForBackground) return <div>Loading Background...</div>;
 
     return (
-        <div style={{ width: '100%', height: 'calc(100vh - 100px)', position: 'relative', border: '1px solid #ccc', overflow: 'hidden' }}>
+        <div style={{ width: '100%', height: 'calc(100dvh - 100px)', position: 'relative', border: '1px solid #ccc', overflow: 'hidden', touchAction: 'none' }}>
             <TransformWrapper
                 initialScale={0.5}
                 minScale={0.4}                
