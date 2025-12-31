@@ -32,15 +32,18 @@
   transition: all 0.3s ease;
 }
 
-.hamburger.open .bar:nth-child(1) {
+.hamburger.open .bar:nth-child(1),
+.mobileHamburger.open .bar:nth-child(1) {
   transform: translateY(6px) rotate(45deg);
 }
 
-.hamburger.open .bar:nth-child(2) {
+.hamburger.open .bar:nth-child(2),
+.mobileHamburger.open .bar:nth-child(2) {
   opacity: 0;
 }
 
-.hamburger.open .bar:nth-child(3) {
+.hamburger.open .bar:nth-child(3),
+.mobileHamburger.open .bar:nth-child(3) {
   transform: translateY(-6px) rotate(-45deg);
 }
 
@@ -208,7 +211,7 @@
 /* Region Styles */
 .regionGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 0.5rem;
 }
 
@@ -283,4 +286,184 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Mobile Sidebar Styles */
+.mobileContainer {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 2000;
+  display: flex;
+  flex-direction: row-reverse; /* 改為水平排列 */
+  align-items: center;
+  gap: 1rem;
+}
+
+.mobileHamburger {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 2002;
+  padding: 0;
+  transform: rotate(0deg);
+  flex-shrink: 0;
+}
+
+.mobileHamburger.open {
+  transform: rotate(90deg);
+}
+
+.mobileMenu {
+  display: flex;
+  flex-direction: row-reverse; /* 改為水平排列 */
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateX(20px) scale(0.8); /* 改為水平位移 */
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2002;
+}
+
+.mobileMenu.open {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+}
+
+.mobileIconBtn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #555;
+  transition: all 0.2s;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.mobileIconBtn.active {
+  background: #1890ff;
+  color: white;
+  border-color: #1890ff;
+}
+
+.mobilePanel {
+  position: fixed;
+  bottom: 6.5rem; /* 移到按鈕上方 */
+  left: 50%;
+  transform: translate(-50%, 20px) scale(0.95);
+  width: calc(100vw - 60px); /* 兩側間距 20px */
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 1.25rem;
+  z-index: 2001;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.mobilePanel.open {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+  pointer-events: auto;
+}
+
+.mobilePanelTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.4rem;
+}
+
+.mobilePanelContent {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 橫向螢幕或寬螢幕手機優化 */
+@media (min-aspect-ratio: 13/9) and (max-width: 900px) {
+  .mobilePanel {
+    left: auto;
+    right: 2rem;
+    transform: translate(0, 20px) scale(0.95);
+    width: 320px;
+  }
+  .mobilePanel.open {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* Responsive Visibility */
+@media (max-width: 768px) {
+  .hamburger, .drawer {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobileContainer, .mobilePanel {
+    display: none !important;
+  }
+}
+
+/* Header Styles */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(env(safe-area-inset-top, 0px) + 4.5rem);
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 0.5rem;
+  padding-left: 4.5rem;
+  transition: all 0.3s ease;
+}
+
+.headerTitle {
+  margin: 22px 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding-left: 0;
+    justify-content: center;
+  }
+  
+  .headerTitle {
+    margin: 22px 0;
+  }
 }
