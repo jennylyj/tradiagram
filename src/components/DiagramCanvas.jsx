@@ -68,10 +68,10 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                 centerOnInit={false}
                 centerZoomedOut={false}
                 limitToBounds={false}
-                wheel={{ disabled: false, step: 0.5 }}
+                wheel={{ step: 0.1, activationKeys: ['Control', 'Meta'] }}
                 pinch={{ step: 5 }}
                 doubleClick={{ step: 0.5 }}
-                panning={{ velocityDisabled: true }}
+                panning={{ disabled: false, wheelPanning: true, velocityDisabled: true, lockAxisX: false, lockAxisY: false }}
                 onTransformed={(ref) => labelsRef.current?.update(ref.state)}
                 onPanning={(ref) => labelsRef.current?.update(ref.state)}
                 onZooming={(ref) => labelsRef.current?.update(ref.state)}

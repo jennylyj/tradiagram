@@ -119,7 +119,7 @@ export default function DiagramPage() {
                 </h1>
             </div>
             
-                        <div style={{ flex: 1, width: '100%', position: 'relative' }}>
+            <div style={{ flex: 1, width: '100%', position: 'relative' }}>
                 <DiagramCanvas 
                     trainsData={trainsData} 
                     lineKind={lineKind}
