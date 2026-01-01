@@ -59,65 +59,39 @@ export function findUncontinuousIndex(value) {
 }
 
 // 計算車次號標註的位置
-export function calculateTextPosition(coordinates, color) {
-    let coordinates_pairs_temp = [];
-    let coordinates_distance = []; // 用來置放每一個轉折點之間的長度
-
-    for (const iterator of coordinates) {
-        if (coordinates_pairs_temp.length === 2) {
-            let distance = calculateDistance(coordinates_pairs_temp[0], coordinates_pairs_temp[1]);
-            coordinates_distance.push(distance);
-            coordinates_pairs_temp[0] = coordinates_pairs_temp[1];
-            coordinates_pairs_temp[1] = iterator;
-        } else if (coordinates_pairs_temp.length === 1) {
-            coordinates_pairs_temp.push(iterator);
-        } else if (coordinates_pairs_temp.length === 0) {
-            coordinates_pairs_temp.push(iterator);
-        }
+export function calculateTextPositions(coordinates, styleClass) {
+    const distances = [];
+    for (let i = 0; i < coordinates.length - 1; i++) {
+        distances.push(calculateDistance(coordinates[i], coordinates[i+1]));
     }
 
-    if (coordinates_pairs_temp.length == 2) {
-        coordinates_distance.push(calculateDistance(coordinates_pairs_temp[0], coordinates_pairs_temp[1]));
-    }
+    let positions = [];
+    let accumulateDist = 0;
+    const isLocal = styleClass === 'local';
 
-    // 標號邏輯
-    let text_position = []; // 用來置放標號定位點
-    let accumulate_dist = 0; // 所有轉折點的長度累進
-
-    if (color === "local") {
-        let new_text_position = [];
-        for (let item of coordinates_distance) {
-            if (item > 60) {
-                const pos = accumulate_dist + item / 4;
-                text_position.push(pos);
+    if (isLocal) {
+        let tempPositions = [];
+        for (let d of distances) {
+            if (d > 60) {
+                tempPositions.push(accumulateDist + d / 4);
             }
-            accumulate_dist += item;
+            accumulateDist += d;
         }
-
-        for (let i = 0; i < text_position.length; i++) {
-            if (i % 2 === 0) {
-                new_text_position.push(text_position[i]);
-            }
-        }
-
-        text_position = new_text_position;
+        positions = tempPositions.filter((_, i) => i % 2 === 0);
     } else {
-        for (let item of coordinates_distance) {
-            if (item > 60 && item < 100) {
-                text_position.push(0);
-            } else if (item >= 100 && item <= 500) {
-                const pos = accumulate_dist + item / 2;
-                text_position.push(pos);
-            } else if (item > 500) {
-                for (let i = 1; i <= 2; i++) {
-                    const pos = accumulate_dist + i * (item / 3);
-                    text_position.push(pos);
-                }
+        for (let d of distances) {
+            if (d > 60 && d < 100) {
+                positions.push(0);
+            } else if (d >= 100 && d <= 500) {
+                positions.push(accumulateDist + d / 2);
+            } else if (d > 500) {
+                positions.push(accumulateDist + d / 3);
+                positions.push(accumulateDist + 2 * d / 3);
             }
-            accumulate_dist += item;
+            accumulateDist += d;
         }
     }
-    return text_position;
+    return positions;
 }
 
 // 取得現在時間，轉換成X軸
