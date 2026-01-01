@@ -96,7 +96,7 @@ export default function DiagramPage() {
         <div
             style={{
                 width: '100%',
-                minHeight: '100dvh',
+                height: '100dvh',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
