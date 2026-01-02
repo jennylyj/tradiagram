@@ -59,7 +59,7 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
     if (!linesStationsForBackground) return <div>Loading Background...</div>;
 
     return (
-        <div style={{ width: '100%', maxHeight: '100%', position: 'relative', overflow: 'hidden', touchAction: 'none' }}>
+        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', touchAction: 'none' }}>
             <TransformWrapper
                 ref={transformRef}
                 initialScale={0.5}
@@ -88,10 +88,8 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                             <button onClick={() => resetTransform()} style={buttonStyle}>Reset</button>
                         </div>
                         <TransformComponent
-                            wrapperStyle={{ maxWidth: '100%', maxHeight: '100vh' }}
-                            // contentStyle={{ width: 'fit-content', height: 'fit-content' }}
-                            contentStyle={{ padding: '120px 80px' }}
-
+                            wrapperStyle={{ width: '100%', height: '100%' }}
+                            contentStyle={{ width: 'fit-content', height: 'fit-content' }}
                         >
                             <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
                                 <DiagramBackground 

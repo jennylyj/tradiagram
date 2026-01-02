@@ -103,6 +103,8 @@ export default function DiagramPage() {
                 justifyContent: 'flex-start',
                 paddingTop: 'calc(env(safe-area-inset-top, 0px) + 5rem)',
                 backgroundColor: 'inherit',
+                overflow: 'hidden',
+                boxSizing: 'border-box',
             }}
         >
             {/* 過渡動畫遮罩 */}

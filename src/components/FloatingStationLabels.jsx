@@ -59,7 +59,7 @@ const FloatingStationLabels = forwardRef(({ stations }, ref) => {
                 {visibleStations.map((station, index) => {
                     // Calculate Y position relative to the moving container
                     // We only apply scale here. The translation is on the parent div.
-                    const top = (station.SVGYAXIS + 170) * scale;
+                    const top = (station.SVGYAXIS + 50) * scale;
                     
                     return (
                         <div key={`${station.ID}-${index}`} style={{

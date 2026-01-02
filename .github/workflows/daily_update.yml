@@ -1,7 +1,6 @@
 name: Daily Train Schedule Update
 
 on:
-  push:
   # schedule UTC 20:00
   schedule:
    - cron: '0 20 * * *'
@@ -37,7 +36,6 @@ jobs:
         run: ./automation/cleanup.sh
 
       - name: Run download script
-        if: github.event_name != 'push'
         run: |
           python automation/update_data.py
           git add public/data/*.json
