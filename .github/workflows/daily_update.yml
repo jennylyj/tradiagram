@@ -2,8 +2,6 @@ name: Daily Train Schedule Update
 
 on:
   push:
-    branches:
-      - main
   # schedule UTC 20:00
   schedule:
    - cron: '0 20 * * *'

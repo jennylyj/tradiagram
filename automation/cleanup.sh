@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+TZ="Etc/GMT-8"
 THRESHOLD=$(date --date="60 days ago" +"public/data/%Y%m%d.json")
 cnt=0
 
