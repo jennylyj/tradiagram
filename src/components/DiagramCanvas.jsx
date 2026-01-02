@@ -59,7 +59,7 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
     if (!linesStationsForBackground) return <div>Loading Background...</div>;
 
     return (
-        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', touchAction: 'none' }}>
+        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', overscrollBehavior: 'none', touchAction: 'none' }}>
             <TransformWrapper
                 ref={transformRef}
                 initialScale={0.5}
@@ -68,9 +68,14 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                 centerOnInit={false}
                 centerZoomedOut={false}
                 limitToBounds={false}
-                wheel={{ step: 0.1, activationKeys: ['Control', 'Meta'] }}
+                // maxPositionX={width}
+                // minPositionY={120}
+                // maxPositionY={height}
+                // wheel={{ step: 0.1, activationKeys: ['Control', 'Meta'] }}
+                wheel={{ wheelDisabled: true }}
                 pinch={{ step: 5 }}
                 doubleClick={{ step: 0.5 }}
+                // panning={{ disabled: false, wheelPanning: true, velocityDisabled: true, lockAxisX: false, lockAxisY: false, excluded: ["Control", "Meta"] }}
                 panning={{ disabled: false, wheelPanning: true, velocityDisabled: true, lockAxisX: false, lockAxisY: false }}
                 onTransformed={(ref) => labelsRef.current?.update(ref.state)}
                 onPanning={(ref) => labelsRef.current?.update(ref.state)}
@@ -82,7 +87,7 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                             ref={labelsRef}
                             stations={linesStationsForBackground} 
                         />
-                        <div style={{ position: 'absolute', zIndex: 10, bottom: 20, right: 20, display: 'flex', gap: '10px' }}>
+                        <div style={{ position: 'fixed', zIndex: 10, bottom: 10, right: 10, display: 'flex', gap: '10px' }}>
                             <button onClick={() => zoomIn()} style={buttonStyle}>+</button>
                             <button onClick={() => zoomOut()} style={buttonStyle}>-</button>
                             <button onClick={() => resetTransform()} style={buttonStyle}>Reset</button>
