@@ -45,8 +45,7 @@ tradiagram/
 ├── public/
 │   ├── data/           # 時刻表 JSON 資料
 │   ├── images/
-│   ├── references/     # 路線、車站、車種定義檔
-│   └── sitemap.xml
+│   └── references/     # 路線、車站、車種定義檔
 ├── src/
 │   ├── App.jsx         # 應用程式入口與路由
 │   ├── assets/
