@@ -67,10 +67,7 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                 maxScale={2}
                 centerOnInit={false}
                 centerZoomedOut={false}
-                limitToBounds={false}
-                // maxPositionX={width}
-                // minPositionY={120}
-                // maxPositionY={height}
+                limitToBounds={true}
                 // wheel={{ step: 0.1, activationKeys: ['Control', 'Meta'] }}
                 wheel={{ wheelDisabled: true }}
                 pinch={{ step: 5 }}
@@ -93,8 +90,8 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                             <button onClick={() => resetTransform()} style={buttonStyle}>Reset</button>
                         </div>
                         <TransformComponent
-                            wrapperStyle={{ width: '100%', height: '100%' }}
-                            contentStyle={{ width: `${width}px`, height: `${height}px` }}
+                            wrapperStyle={{ width: '100vw', height: '100vh', boxSizing: 'border-box' }}
+                            contentStyle={{ width: `${width}px`, height: `${height}px`, boxSizing: 'border-box' }}
                         >
                             <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
                                 <DiagramBackground 
