@@ -29,7 +29,6 @@ const FloatingStationLabels = forwardRef(({ stations }, ref) => {
         const weight = station.WEIGHT || 1;
         if (scale > 0.6) return true; // Show all
         if (scale >= 0.5) return weight >= 2; // Show 2 and 3
-        if (scale >= 0.4) return weight >= 3; // Show 3 only
         return weight >= 3; // Default for < 0.4, keep showing major stations
     });
 
