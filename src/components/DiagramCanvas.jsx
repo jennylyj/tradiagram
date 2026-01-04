@@ -91,7 +91,7 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                         </div>
                         <TransformComponent
                             wrapperStyle={{ width: '100vw', height: '100vh', boxSizing: 'border-box' }}
-                            contentStyle={{ width: `${width}px`, height: `${height}px`, boxSizing: 'border-box' }}
+                            contentStyle={{ width: `${width}px`, height: `${height+200}px`, boxSizing: 'border-box' }}
                         >
                             <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg">
                                 <DiagramBackground 
