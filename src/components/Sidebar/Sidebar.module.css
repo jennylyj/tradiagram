@@ -189,6 +189,11 @@
   background: #f0f0f0;
 }
 
+.emptyDay {
+  cursor: default;
+  pointer-events: none;
+}
+
 .hasData {
   background: #e6f7ff;
   color: #1890ff;

@@ -41,7 +41,7 @@ const CalendarSection = ({ currentDate, onDateSelect }) => {
   // Fill empty slots for previous month
   const firstDay = firstDayOfMonth(year, month);
   for (let i = 0; i < firstDay; i++) {
-    days.push(<div key={`empty-${i}`} className={styles.day}></div>);
+    days.push(<div key={`empty-${i}`} className={`${styles.day} ${styles.emptyDay}`}></div>);
   }
 
   // Fill days of current month
@@ -61,6 +61,9 @@ const CalendarSection = ({ currentDate, onDateSelect }) => {
       </div>
     );
   }
+
+  const remSlots = 42-days.length;
+  for(let i=0; i<remSlots; i++) days.push(<div key={`empty-end-${i}`} className={`${styles.day} ${styles.emptyDay}`}></div>);
 
   const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
 
