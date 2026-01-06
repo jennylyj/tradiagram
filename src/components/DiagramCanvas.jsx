@@ -112,7 +112,7 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                             </svg>
 
                                 <CurrentTimeLine height={height} />
-                            </svg>
+                            
                         </TransformComponent>
                     </>
                 )}
