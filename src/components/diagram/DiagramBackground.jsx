@@ -35,7 +35,7 @@ const DiagramBackground = memo(({ width, height, linesStationsForBackground, tex
                                     />
                                     {/* Min Text */}
                                     {Array.from({ length: Math.ceil(height / textSpacingFactor) }).map((_, k) => (
-                                        <text key={`mt-${i}-${j}-${k}`} x={mx} y={50 + k * textSpacingFactor + 30} className="hour_text" fontSize="10">
+                                        <text key={`mt-${i}-${j}-${k}`} x={mx} y={50 + k * textSpacingFactor + 30} className="hour_text" fontSize="0.625rem">
                                             {j * 10}
                                         </text>
                                     ))}

@@ -64,17 +64,18 @@ const FloatingStationLabels = forwardRef(({ stations }, ref) => {
                         <div key={`${station.ID}-${index}`} style={{
                             position: 'absolute',
                             top: `${top}px`,
-                            left: '10px', // Fixed to left side
+                            left: '0.625rem', // Fixed to left side
                             transform: 'translateY(-50%)', // Center vertically on the line
                             backgroundColor: 'rgba(255, 255, 255, 0.9)',
                             border: '1px solid #ddd',
-                            borderRadius: '12px', // Rounded corners
-                            padding: '4px 0',
+                            borderRadius: '0.75rem', // Rounded corners
+                            padding: '0.25rem 0.5rem',
                             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                            fontSize: '12px',
+                            fontSize: '0.75rem',
                             fontWeight: 'bold',
                             whiteSpace: 'nowrap',
-                            width: '80px', // Fixed width
+                            minWidth: '5rem',
+                            width: 'auto',
                             textAlign: 'center',
                             color: '#333',
                             pointerEvents: 'auto' // Allow hovering/clicking if needed

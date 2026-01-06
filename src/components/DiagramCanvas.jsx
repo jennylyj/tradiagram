@@ -110,6 +110,9 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
 
                                 <CurrentTimeLine height={height} />
                             </svg>
+
+                                <CurrentTimeLine height={height} />
+                            </svg>
                         </TransformComponent>
                     </>
                 )}
@@ -119,11 +122,16 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
 }
 
 const buttonStyle = {
-    padding: '8px 12px',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
+    padding: '0.75rem 1.25rem',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    border: '1px solid #999',
+    borderRadius: '0.5rem',
     cursor: 'pointer',
-    fontSize: '14px',
-    fontWeight: 'bold'
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    minWidth: '48px',
+    minHeight: '48px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
 };

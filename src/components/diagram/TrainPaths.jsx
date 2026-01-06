@@ -68,7 +68,7 @@ const TrainPaths = memo(({ trainsData, lineKind, carKind, diagramNeedStop }) => 
                                 style={{ fill: 'none' }}
                             />
                             {textPositions.map((pos, i) => (
-                                <text key={`${uniqueId}-txt-${i}`} dy="-3" className={styleClass} style={{ strokeWidth: '0.5', fontSize: '14px' }}>
+                                <text key={`${uniqueId}-txt-${i}`} dy="-3" className={styleClass} style={{ stroke: 'none', fontWeight: '100', fontSize: '0.875rem' }}>
                                     <textPath href={`#${uniqueId}`} startOffset={pos}>
                                         {trainNo}
                                     </textPath>

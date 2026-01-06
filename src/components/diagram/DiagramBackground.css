@@ -25,18 +25,18 @@
 }
 
 .hour_text { 
-    font-size: 12px; 
-    fill: #666; 
+    font-size: 0.75rem; 
+    fill: #333; 
 }
 
 .station_text { 
-    font-size: 12px; 
-    fill: #666; 
+    font-size: 0.75rem; 
+    fill: #333; 
 }
 
 svg {
     font-family: Tahoma, Verdana, sans-serif; 
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 path {
