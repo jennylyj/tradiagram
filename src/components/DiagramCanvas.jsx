@@ -70,7 +70,7 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                 limitToBounds={true}
                 // wheel={{ step: 0.1, activationKeys: ['Control', 'Meta'] }}
                 wheel={{ wheelDisabled: true }}
-                pinch={{ step: 5 }}
+                pinch={{ step: 10.0 }}
                 doubleClick={{ step: 0.5 }}
                 // panning={{ disabled: false, wheelPanning: true, velocityDisabled: true, lockAxisX: false, lockAxisY: false, excluded: ["Control", "Meta"] }}
                 panning={{ disabled: false, wheelPanning: true, velocityDisabled: true, lockAxisX: false, lockAxisY: false }}

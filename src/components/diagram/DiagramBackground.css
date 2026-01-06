@@ -1,28 +1,159 @@
-.hour_line { stroke: #ccc; stroke-width: 1; }
-.min10_line { stroke: #eee; stroke-width: 1; }
-.min30_line { stroke: #ddd; stroke-width: 1; }
-.station_line { stroke: #ccc; stroke-width: 1; }
-.station_noserv_line { stroke: #eee; stroke-width: 1; stroke-dasharray: 5,5; }
-.hour_text { font-size: 12px; fill: #666; }
-.station_text { font-size: 12px; fill: #666; }
+.hour_line { 
+    stroke: #ccc; 
+    stroke-width: 1; 
+}
 
-svg {font-family: Tahoma, Verdana, sans-serif; font-size: 14px}
+.min10_line { 
+    stroke: #eee; 
+    stroke-width: 1; 
+}
 
-/* Train Styles from CSS */
-.taroko, .kuaimu { color: #20b2aa; stroke: currentColor; fill: currentColor; stroke-width: 2; }
-.puyuma, .zhongxing, .direct { color: red; stroke: currentColor; fill: currentColor; stroke-width: 2; }
-.tze_chiang, .alishan_local { color: orange; stroke: currentColor; fill: currentColor; stroke-width: 2; }
-.tze_chiang_diesel { color: gold; stroke: currentColor; fill: currentColor; stroke-width: 2; }
-.emu1200 { color: #ff008c; stroke: currentColor; fill: currentColor; stroke-width: 2; }
-.emu300 { color: #f44; stroke: currentColor; fill: currentColor; stroke-width: 2; }
-.emu3000 { color: #000; stroke: currentColor; fill: currentColor; stroke-width: 2; }
-.chu_kuang, .chushan1, .chushan2, .skip_stop { color: #faab82; stroke: currentColor; fill: currentColor; stroke-width: 2; }
-.local, .alishan, .all_stop { color: #00f; stroke: currentColor; fill: currentColor; stroke-width: 1.5; }
-.local_express { color: #00a6ff; stroke: currentColor; fill: currentColor; stroke-width: 1.5; }
-.fu_hsing { color: #00bfff; stroke: currentColor; fill: currentColor; stroke-width: 1.5; }
-.ordinary, .theme { color: #006055; stroke: currentColor; fill: currentColor; stroke-width: 1.5; }
-.special { color: #ff1493; stroke: currentColor; fill: currentColor; stroke-width: 2; }
-.others { color: grey; stroke: currentColor; fill: currentColor; stroke-width: 1; }
+.min30_line { 
+    stroke: #ddd; 
+    stroke-width: 1; 
+}
+
+.station_line { 
+    stroke: #ccc; 
+    stroke-width: 1; 
+}
+
+.station_noserv_line { 
+    stroke: #eee; 
+    stroke-width: 1; 
+    stroke-dasharray: 5,5; 
+}
+
+.hour_text { 
+    font-size: 12px; 
+    fill: #666; 
+}
+
+.station_text { 
+    font-size: 12px; 
+    fill: #666; 
+}
+
+svg {
+    font-family: Tahoma, Verdana, sans-serif; 
+    font-size: 14px;
+}
+
+path {
+    transition-property: stroke-width;
+    transition-duration: 1s;
+    transition-timing-function: ease-out;
+    transition-delay: 0s;
+    stroke-linecap: round;
+    stroke-width: 2.5;
+    fill: none;
+}
+
+path:hover {
+    stroke-width: 6;
+}
+
+path:focus {
+    stroke-width: 6;
+}
+
+.taroko, .kuaimu { 
+    color: #20b2aa; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 2; 
+}
+
+.puyuma, .zhongxing, .direct { 
+    color: red; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 2; 
+}
+
+.tze_chiang, .alishan_local { 
+    color: orange; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 2; 
+}
+
+.tze_chiang_diesel { 
+    color: gold; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 2; 
+}
+
+.emu1200 { 
+    color: #ff008c; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 2; 
+}
+
+.emu300 { 
+    color: #f44; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 2;
+}
+
+.emu3000 { 
+    color: #000; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 2; 
+}
+
+.chu_kuang, .chushan1, .chushan2, .skip_stop { 
+    color: #faab82; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 2; 
+}
+
+.local, .alishan, .all_stop { 
+    color: #00f; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 1.5; 
+}
+
+.local_express { 
+    color: #00a6ff; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 1.5; 
+}
+
+.fu_hsing { 
+    color: #00bfff; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 1.5; 
+}
+
+.ordinary, .theme { 
+    color: #006055; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 1.5; 
+}
+
+.special { 
+    color: #ff1493; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 2; 
+}
+
+.others { 
+    color: grey; 
+    stroke: currentColor; 
+    fill: currentColor; 
+    stroke-width: 1; 
+}
 
 /* 
 @media (prefers-color-scheme: dark) {
