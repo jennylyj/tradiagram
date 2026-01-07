@@ -105,6 +105,7 @@ export default function DiagramPage() {
                 backgroundColor: 'inherit',
                 overflow: 'hidden',
                 boxSizing: 'border-box',
+                overscrollBehavior: 'none',
             }}
         >
             {/* 過渡動畫遮罩 */}

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { FaCalendarAlt, FaSearch, FaRoute } from 'react-icons/fa';
+import { LuCalendarDays, LuSearch, LuRoute, LuLink } from 'react-icons/lu';
 import styles from './Sidebar.module.css';
 import CalendarSection from './Sections/CalendarSection';
 import SearchSection from './Sections/SearchSection';
 import RegionSection from './Sections/RegionSection';
+import ExtLinkSection from './Sections/ExtLinkSection';
 
 const MobileSidebar = ({ currentDate, onDateSelect }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,25 +39,32 @@ const MobileSidebar = ({ currentDate, onDateSelect }) => {
       {/* Floating Menu Icons */}
       <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.open : ''}`}>
         <button 
+          className={`${styles.mobileIconBtn} ${activePanel === 'extlink' ? styles.active : ''}`}
+          onClick={() => togglePanel('extlink')}
+          title="連結"
+        >
+          <LuLink strokeWidth={3}/>
+        </button>
+        <button 
           className={`${styles.mobileIconBtn} ${activePanel === 'region' ? styles.active : ''}`}
           onClick={() => togglePanel('region')}
           title="路線"
         >
-          <FaRoute />
+          <LuRoute strokeWidth={3}/>
         </button>
         <button 
           className={`${styles.mobileIconBtn} ${activePanel === 'search' ? styles.active : ''}`}
           onClick={() => togglePanel('search')}
           title="搜尋"
         >
-          <FaSearch />
+          <LuSearch strokeWidth={3}/>
         </button>
         <button 
           className={`${styles.mobileIconBtn} ${activePanel === 'calendar' ? styles.active : ''}`}
           onClick={() => togglePanel('calendar')}
           title="日曆"
         >
-          <FaCalendarAlt />
+          <LuCalendarDays strokeWidth={3}/>
         </button>
       </div>
 
@@ -79,6 +87,12 @@ const MobileSidebar = ({ currentDate, onDateSelect }) => {
             <>
               <h3 className={styles.mobilePanelTitle}>選擇路線</h3>
               <RegionSection />
+            </>
+          )}
+          {activePanel === 'extlink' && (
+            <>
+              <h3 className={styles.mobilePanelTitle}>外部連結</h3>
+              <ExtLinkSection />
             </>
           )}
         </div>

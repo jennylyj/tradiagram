@@ -69,6 +69,7 @@
   
   padding: 1.5rem;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .drawer.open {
@@ -256,6 +257,16 @@
   text-align: center;
 }
 
+/* External Links Section */
+.extLinks {
+  padding: 0.5rem;
+  background: #fafafa;
+  /* border: 1px dashed #ccc; */
+  color: #000;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
 /* Transition Overlay */
 .loadingOverlay {
   position: fixed;
@@ -296,8 +307,8 @@
 /* Mobile Sidebar Styles */
 .mobileContainer {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 4.5rem;
+  right: 1.5rem;
   z-index: 2000;
   display: flex;
   flex-direction: row-reverse; /* 改為水平排列 */

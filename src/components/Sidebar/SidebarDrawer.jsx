@@ -4,6 +4,7 @@ import CollapsibleSection from './Sections/CollapsibleSection';
 import CalendarSection from './Sections/CalendarSection';
 import RegionSection from './Sections/RegionSection';
 import SearchSection from './Sections/SearchSection';
+import ExtLinkSection from './Sections/ExtLinkSection';
 
 const SidebarDrawer = ({ isOpen, currentDate, onDateSelect }) => {
   const [activeSection, setActiveSection] = useState('calendar');
@@ -41,7 +42,14 @@ const SidebarDrawer = ({ isOpen, currentDate, onDateSelect }) => {
           <RegionSection />
         </CollapsibleSection>
 
-        
+        <CollapsibleSection 
+          title="外部連結"
+          isOpen={activeSection === 'extlink'}
+          onToggle={() => toggleSection('extlink')}
+        >
+          <ExtLinkSection />
+        </CollapsibleSection>
+
       </div>
     </aside>
   );
