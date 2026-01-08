@@ -6,7 +6,15 @@ import RegionSection from './Sections/RegionSection';
 import SearchSection from './Sections/SearchSection';
 import ExtLinkSection from './Sections/ExtLinkSection';
 
-const SidebarDrawer = ({ isOpen, currentDate, onDateSelect }) => {
+const SidebarDrawer = ({ 
+  isOpen, 
+  currentDate, 
+  onDateSelect,
+  availableTrains,
+  selectedTrainNos,
+  onToggleTrainSelection,
+  onClearTrainSelection
+}) => {
   const [activeSection, setActiveSection] = useState('calendar');
 
   const toggleSection = (sectionId) => {
@@ -31,7 +39,12 @@ const SidebarDrawer = ({ isOpen, currentDate, onDateSelect }) => {
           isOpen={activeSection === 'search'}
           onToggle={() => toggleSection('search')}
         >
-          <SearchSection />
+          <SearchSection 
+             availableTrains={availableTrains}
+             selectedTrainNos={selectedTrainNos}
+             onToggleTrainSelection={onToggleTrainSelection}
+             onClearTrainSelection={onClearTrainSelection}
+          />
         </CollapsibleSection>
 
         <CollapsibleSection 

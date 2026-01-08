@@ -19,6 +19,43 @@ export default function DiagramPage() {
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [error, setError] = useState(null);
     const [backgroundData, setBackgroundData] = useState(null);
+    const [selectedTrainNos, setSelectedTrainNos] = useState([]);
+
+    const toggleTrainSelection = (trainNo) => {
+        setSelectedTrainNos(prev => 
+            prev.includes(trainNo) 
+                ? prev.filter(no => no !== trainNo) 
+                : [...prev, trainNo]
+        );
+    };
+
+    const clearTrainSelection = () => {
+        setSelectedTrainNos([]);
+    };
+
+    const availableTrains = React.useMemo(() => {
+        if (!trainsData) return [];
+        const trains = [];
+        const seen = new Set();
+        
+        trainsData.forEach(group => {
+            group.forEach(([lKind, trainNo]) => {
+                if (lKind === lineKind && !seen.has(trainNo)) {
+                    seen.add(trainNo);
+                    trains.push(trainNo);
+                }
+            });
+        });
+        
+        return trains.sort((a, b) => {
+             const numA = parseInt(a);
+             const numB = parseInt(b);
+             if (!isNaN(numA) && !isNaN(numB)) {
+                 return numA - numB;
+             }
+             return a.localeCompare(b);
+        });
+    }, [trainsData, lineKind]);
 
     useEffect(() => {
         if (queryDate) {
@@ -113,7 +150,14 @@ export default function DiagramPage() {
                 <div className={styles.loadingSpinner}></div>
             </div>
 
-            <SidebarContainer currentDate={date} onDateSelect={setDate} />
+            <SidebarContainer 
+                currentDate={date} 
+                onDateSelect={setDate} 
+                availableTrains={availableTrains}
+                selectedTrainNos={selectedTrainNos}
+                onToggleTrainSelection={toggleTrainSelection}
+                onClearTrainSelection={clearTrainSelection}
+            />
             
             {/* 頂部標題列白色底色 */}
             <div className={styles.header}>
@@ -129,6 +173,7 @@ export default function DiagramPage() {
                     linesStationsForBackground={backgroundData?.linesStationsForBackground}
                     carKind={backgroundData?.carKind}
                     focusOnNow={true}
+                    selectedTrainNos={selectedTrainNos}
                 />
             </div>
         </div>

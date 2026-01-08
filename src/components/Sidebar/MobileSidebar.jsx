@@ -6,7 +6,14 @@ import SearchSection from './Sections/SearchSection';
 import RegionSection from './Sections/RegionSection';
 import ExtLinkSection from './Sections/ExtLinkSection';
 
-const MobileSidebar = ({ currentDate, onDateSelect }) => {
+const MobileSidebar = ({ 
+  currentDate, 
+  onDateSelect,
+  availableTrains,
+  selectedTrainNos,
+  onToggleTrainSelection,
+  onClearTrainSelection
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activePanel, setActivePanel] = useState(null);
 
@@ -80,7 +87,12 @@ const MobileSidebar = ({ currentDate, onDateSelect }) => {
           {activePanel === 'search' && (
             <>
               <h3 className={styles.mobilePanelTitle}>搜尋車次</h3>
-              <SearchSection />
+              <SearchSection 
+                availableTrains={availableTrains} 
+                selectedTrainNos={selectedTrainNos}
+                onToggleTrainSelection={onToggleTrainSelection}
+                onClearTrainSelection={onClearTrainSelection}
+              />
             </>
           )}
           {activePanel === 'region' && (

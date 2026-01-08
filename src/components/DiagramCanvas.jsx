@@ -6,7 +6,7 @@ import DiagramBackground from './diagram/DiagramBackground';
 import TrainPaths from './diagram/TrainPaths';
 import CurrentTimeLine from './diagram/CurrentTimeLine';
 
-export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBackground, carKind, focusOnNow }) {
+export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBackground, carKind, focusOnNow, selectedTrainNos }) {
     const labelsRef = useRef(null);
     const transformRef = useRef(null);
 
@@ -106,12 +106,11 @@ export default function DiagramCanvas({ trainsData, lineKind, linesStationsForBa
                                     lineKind={lineKind}
                                     carKind={carKind}
                                     diagramNeedStop={diagramNeedStop}
+                                    selectedTrainNos={selectedTrainNos}
                                 />
 
                                 <CurrentTimeLine height={height} />
                             </svg>
-
-                                <CurrentTimeLine height={height} />
                             
                         </TransformComponent>
                     </>
