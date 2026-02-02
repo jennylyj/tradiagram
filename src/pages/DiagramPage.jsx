@@ -20,6 +20,7 @@ export default function DiagramPage() {
     const [error, setError] = useState(null);
     const [backgroundData, setBackgroundData] = useState(null);
     const [selectedTrainNos, setSelectedTrainNos] = useState([]);
+    const [carKindData, setCarKindData] = useState(null);
 
     const toggleTrainSelection = (trainNo) => {
         setSelectedTrainNos(prev => 
@@ -34,28 +35,29 @@ export default function DiagramPage() {
     };
 
     const availableTrains = React.useMemo(() => {
-        if (!trainsData) return [];
+        if (!trainsData || !carKindData) return [];
         const trains = [];
         const seen = new Set();
         
         trainsData.forEach(group => {
-            group.forEach(([lKind, trainNo]) => {
+            group.forEach(([lKind, trainNo, carClass]) => {
                 if (lKind === lineKind && !seen.has(trainNo)) {
                     seen.add(trainNo);
-                    trains.push(trainNo);
+                    const carTypeKey = carKindData[carClass];
+                    trains.push({ trainNo, carTypeKey });
                 }
             });
         });
         
         return trains.sort((a, b) => {
-             const numA = parseInt(a);
-             const numB = parseInt(b);
+             const numA = parseInt(a.trainNo);
+             const numB = parseInt(b.trainNo);
              if (!isNaN(numA) && !isNaN(numB)) {
                  return numA - numB;
              }
-             return a.localeCompare(b);
+             return a.trainNo.localeCompare(b.trainNo);
         });
-    }, [trainsData, lineKind]);
+    }, [trainsData, lineKind, carKindData]);
 
     useEffect(() => {
         if (queryDate) {
@@ -84,6 +86,8 @@ export default function DiagramPage() {
                     fetch(DataFiles.CarKind).then(res => res.json()),
                     fetch(`${BASE_URL}data/${date}.json`).then(res => res.json())
                 ]);
+
+                setCarKindData(carKindRes);
 
                 // Process Line Data
                 const { linesStations, linesStationsForBackground } = processLineData(svgYAxisRes);

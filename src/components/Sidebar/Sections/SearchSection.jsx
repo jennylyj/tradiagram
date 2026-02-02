@@ -1,73 +1,100 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useCombobox } from 'downshift';
 import styles from '../Sidebar.module.css';
+import { CarDict } from '../../../utils/constants';
 
 const SearchSection = ({ availableTrains = [], selectedTrainNos = [], onToggleTrainSelection, onClearTrainSelection }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const listRef = useRef(null);
+  const [inputValue, setInputValue] = useState('');
+  const [ignoreMouse, setIgnoreMouse] = useState(false);
 
-  const filteredTrains = useMemo(() => {
-    if (!searchTerm) return [];
+  const items = useMemo(() => {
+    if (!inputValue) return [];
     const safeTrains = availableTrains || [];
-    return safeTrains.filter(trainNo => trainNo.startsWith(searchTerm));
-  }, [searchTerm, availableTrains]);
+    const term = inputValue.toLowerCase();
+    return safeTrains.filter(train => {
+      const trainNo = train.trainNo.toLowerCase();
+      const typeName = (CarDict[train.carTypeKey] || '').toLowerCase();
+      return trainNo.startsWith(term) || typeName.includes(term);
+    });
+  }, [inputValue, availableTrains]);
 
-  useEffect(() => {
-    setActiveIndex(-1);
-  }, [filteredTrains]);
-
-  useEffect(() => {
-    if (activeIndex >= 0 && listRef.current) {
-      const activeItem = listRef.current.children[activeIndex];
-      if (activeItem) {
-        activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  const {
+    isOpen,
+    getMenuProps,
+    getInputProps,
+    highlightedIndex,
+    getItemProps,
+  } = useCombobox({
+    items,
+    inputValue,
+    onInputValueChange: ({ inputValue }) => {
+      setInputValue(inputValue);
+    },
+    onSelectedItemChange: ({ selectedItem }) => {
+      if (selectedItem) {
+        onToggleTrainSelection && onToggleTrainSelection(selectedItem.trainNo);
       }
-    }
-  }, [activeIndex]);
-
-  const handleKeyDown = (e) => {
-    if (filteredTrains.length === 0) return;
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActiveIndex(prev => (prev < filteredTrains.length - 1 ? prev + 1 : prev));
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveIndex(prev => (prev > -1 ? prev - 1 : -1));
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      if (activeIndex >= 0) {
-        onToggleTrainSelection && onToggleTrainSelection(filteredTrains[activeIndex]);
+    },
+    itemToString: (item) => (item ? item.trainNo : ''),
+    onHighlightedIndexChange: ({ type }) => {
+      if (
+        type === useCombobox.stateChangeTypes.InputKeyDownArrowDown ||
+        type === useCombobox.stateChangeTypes.InputKeyDownArrowUp
+      ) {
+        setIgnoreMouse(true);
       }
-    }
-  };
+    },
+    stateReducer: (state, actionAndChanges) => {
+      const { type, changes } = actionAndChanges;
+      if (
+        type === useCombobox.stateChangeTypes.ItemClick ||
+        type === useCombobox.stateChangeTypes.InputKeyDownEnter
+      ) {
+        return {
+          ...changes,
+          isOpen: true,
+          highlightedIndex: state.highlightedIndex,
+          inputValue: state.inputValue,
+        };
+      }
+      return changes;
+    },
+  });
 
   return (
-    <div className={styles.searchSection}>
+    <div 
+      className={styles.searchSection}
+      onMouseMove={() => { if (ignoreMouse) setIgnoreMouse(false); }}
+    >
       <input 
-        type="text" 
-        className={styles.searchInput}
-        placeholder="輸入車次編號"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={handleKeyDown}
+        {...getInputProps({
+            className: styles.searchInput,
+            placeholder: "輸入車次編號或車種",
+        })}
       />
-      
-      {filteredTrains.length > 0 && (
-        <ul className={styles.searchResults} ref={listRef}>
-          {filteredTrains.map((trainNo, index) => (
-            <li 
-              key={trainNo}  
-              className={`${styles.searchResultItem} ${selectedTrainNos.includes(trainNo) ? styles.selected : ''} ${index === activeIndex ? styles.active : ''}`}
-              onClick={() => onToggleTrainSelection && onToggleTrainSelection(trainNo)}
-              onMouseEnter={() => setActiveIndex(index)}
+    
+      <ul 
+        {...getMenuProps()} 
+        className={styles.searchResults} 
+        style={{
+          display: isOpen && items.length > 0 ? 'block' : 'none',
+          pointerEvents: ignoreMouse ? 'none' : 'auto'
+        }}
+      >
+          {isOpen && items.map((item, index) => (
+            <li
+              key={`${item.trainNo}${index}`}
+              {...getItemProps({ item, index })}
+              className={`${styles.searchResultItem} ${selectedTrainNos.includes(item.trainNo) ? styles.selected : ''} ${highlightedIndex === index ? styles.active : ''}`}
             >
-              {trainNo}
+              {item.trainNo}
+              <span style={{fontSize: '0.8em', color: '#999', marginLeft: '8px'}}>
+                  {CarDict[item.carTypeKey]}
+              </span>
             </li>
           ))}
-        </ul>
-      )}
-
+      </ul>
+    
       {selectedTrainNos.length > 0 && (
         <div className={styles.selectedTrainsContainer}>
            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>

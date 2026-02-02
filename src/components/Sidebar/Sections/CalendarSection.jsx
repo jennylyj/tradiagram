@@ -53,7 +53,7 @@ const CalendarSection = ({ currentDate, onDateSelect }) => {
 
     days.push(
       <div
-        key={d}
+        key={dateStr}
         className={`${styles.day} ${hasData ? styles.hasData : ''} ${isSelected ? styles.selectedDay : ''}`}
         onClick={() => hasData && onDateSelect(dateStr)}
       >

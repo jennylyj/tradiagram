@@ -18,6 +18,19 @@ export const LineDict = {
     'LINE_N': '北迴線'
 };
 
+export const CarDict = {
+    'tze_chiang_diesel': '柴聯自強號',
+    'taroko': '太魯閣號',
+    'tze_chiang': '自強號',
+    'puyuma': '普悠瑪號',
+    'chu_kuang': '莒光號',
+    'fu_hsing': '復興號',
+    'local': '區間車',
+    'local_express': '區間快車',
+    'ordinary': '區間車',
+    'emu3000': '新自強號'
+}
+
 // Ensure BASE_URL is correct for GitHub Pages deployment
 export const BASE_URL = import.meta.env.BASE_URL === '/' ? '/tradiagram/' : import.meta.env.BASE_URL;
 
