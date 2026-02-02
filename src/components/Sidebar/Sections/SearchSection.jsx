@@ -10,7 +10,10 @@ const SearchSection = ({ availableTrains = [], selectedTrainNos = [], onToggleTr
   const items = useMemo(() => {
     if (!inputValue) return [];
     const safeTrains = availableTrains || [];
-    const term = inputValue.toLowerCase();
+    const term = inputValue.replace(
+      /[\uff01-\uff5e]/g,
+      function(ch) { return String.fromCharCode(ch.charCodeAt(0) - 0xfee0); }
+    ).toLowerCase();
     return safeTrains.filter(train => {
       const trainNo = train.trainNo.toLowerCase();
       const typeName = (CarDict[train.carTypeKey] || '').toLowerCase();
@@ -26,10 +29,6 @@ const SearchSection = ({ availableTrains = [], selectedTrainNos = [], onToggleTr
     getItemProps,
   } = useCombobox({
     items,
-    inputValue,
-    onInputValueChange: ({ inputValue }) => {
-      setInputValue(inputValue);
-    },
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem) {
         onToggleTrainSelection && onToggleTrainSelection(selectedItem.trainNo);
@@ -70,6 +69,7 @@ const SearchSection = ({ availableTrains = [], selectedTrainNos = [], onToggleTr
         {...getInputProps({
             className: styles.searchInput,
             placeholder: "輸入車次編號或車種",
+            onChange: (e) => setInputValue(e.target.value),
         })}
       />
     
