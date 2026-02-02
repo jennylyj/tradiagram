@@ -502,6 +502,7 @@ input:focus {
   border: 1px solid #ccc;
   font-size: 1rem;
   box-sizing: border-box;
+  font-family: Tahoma, Verdana, sans-serif; 
 }
 
 .searchResults {
@@ -518,6 +519,7 @@ input:focus {
 }
 
 .searchResultItem {
+  font-family: Tahoma, Verdana, sans-serif; 
   padding: 0.5rem 1rem;
   padding-inline: 2;
   padding-block: 3;
